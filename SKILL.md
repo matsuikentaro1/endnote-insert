@@ -56,14 +56,28 @@ CSVがない場合、またはCSVにPMID情報がない場合:
 
 PubMedに収録されていない文献（FDA通知、行政文書、和文論文等）はスクリプトでは処理できない。対象から除外し、手動対応が必要な旨をユーザーに伝える。
 
+## 前提: 環境変数の設定
+
+スクリプトは以下の環境変数を参照する。**初回使用時にユーザーへ設定を案内すること。**
+
+| 環境変数 | 必須 | 説明 |
+|----------|------|------|
+| `NCBI_EMAIL` | **必須** | NCBI 利用ポリシーで求められる連絡先メールアドレス。未設定だとスクリプトがエラー終了する |
+| `ENDNOTE_DB_ID` | 任意 | EndNoteライブラリの db-id。未設定時はデフォルト値を使用 |
+
+設定例（Windows）:
+```bash
+set NCBI_EMAIL=user@example.com
+```
+
 ## ステップ2: スクリプトの準備
 
 `scripts/endnote_inserter.py` をプロジェクトフォルダにコピーし、`__main__` ブロックを編集する。
 
 編集箇所:
-1. `ENDNOTE_DB_ID`（スクリプト冒頭の定数）を対象EndNoteライブラリのdb-idに変更
-2. `entries` リストにマーカーとPMIDの対応を記載
-3. `input_docx` と `output_docx` のパスを設定
+1. `entries` リストにマーカーとPMIDの対応を記載
+2. `input_docx` と `output_docx` のパスを設定
+3. （任意）`ENDNOTE_DB_ID` を対象EndNoteライブラリのdb-idに変更（環境変数でも指定可）
 
 db-idの取得方法: docxをzipとして展開し、`word/document.xml` 内で `db-id=` を検索する。既存のEndNoteフィールドがない場合は任意の値でよい。
 
